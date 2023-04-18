@@ -12,23 +12,27 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.infrastructure.repository.RestauranteRepositoryImpl;
 
 @RestController
 @RequestMapping(value = "/teste")
 public class TesteController  {
 
-	
+	@Autowired
 	private RestauranteRepository restauranteRepo;
 	
+	@Autowired
+	private RestauranteRepositoryImpl reo;
 	
+	@Autowired
 	private CozinhaRepository repo;
 	
 	@GetMapping(value = "/cozinhas/por-nome")
 	public List<Cozinha> buscar(String nome){
-		return repo.findTodasByNomeContaining(nome);
+		return reo.find(nome, null, null);
 	}
 	
-	@GetMapping(value = "/restaurantes/por-taxa-frete")
+	/*@GetMapping(value = "/restaurantes/por-taxa-frete")
 	public List<Restaurante> restaurantesPorTaxa(BigDecimal taxaInicial, BigDecimal taxaFinal){
 		return restauranteRepo.findByTaxaFreteBetween(taxaInicial, taxaFinal);
 	}
@@ -38,7 +42,7 @@ public class TesteController  {
 		return restauranteRepo.findByNomeContainingAndCozinhaId(nome, cozinhaId);
 	}
 	
-	/*@GetMapping("/restaurante/top2-por-nome")
+	@GetMapping("/restaurante/top2-por-nome")
 	public List<Restaurante> restauranteTop2(String nome){
 		return restauranteRepo.findTop2ByNomeContaining(nome);
 	}*/
