@@ -3,7 +3,9 @@ package com.algaworks.algafood.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
@@ -24,9 +26,10 @@ public class CadastroCozinhaService {
 		try {
 			cozinhaRepository.deleteById(cozinhaId);
 		}
-		catch(EmptyResultDataAccessException e) {
+		catch(EmptyResultDataAccessException e) {			
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não existe cadastro de cozinha com o codigo %d", cozinhaId));
+			
 		}
 		catch(DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
