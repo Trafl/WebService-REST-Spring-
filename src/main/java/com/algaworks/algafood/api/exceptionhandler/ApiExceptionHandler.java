@@ -15,7 +15,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -27,18 +29,46 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.MENSAGEM_IMCOMPREENSIVEL;
 		
 		Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		
 		if(rootCause instanceof InvalidFormatException ) {
 			return handleInvalidFormatException((InvalidFormatException) rootCause, headers , status, request);
 		}
+		else if(rootCause instanceof IgnoredPropertyException ) {
+			
+			return handleIgnoredPropertyException((IgnoredPropertyException) rootCause, headers , status, request);
+		}
+			
+		else if(rootCause instanceof UnrecognizedPropertyException) {
+			
+			return  handleUnrecognizedPropertyException((UnrecognizedPropertyException) rootCause, headers, status, request);
+		}
 		
-		String detail = "O corpo dad requisição esta inválido. Verifique erro de sintaxe";
+		String detail = "O corpo da requisição esta inválido. Verifique erro de sintaxe";
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 		
 		
 		return handleExceptionInternal(ex, problem, headers, status, request);
 		
 	}
+	/////////////////////////////
+	private ResponseEntity<Object> handleIgnoredPropertyException(
+			IgnoredPropertyException ex, HttpHeaders headers ,  HttpStatus status, WebRequest request) {
+		ProblemType problemType = ProblemType.PROPIEDADE_IGNORADA;
+			
+		Problem problem = createProblemBuilder(status, problemType, "Propeidade Ignorada").build();
+		
+		return handleExceptionInternal(ex, problem,  headers, status,request);
+	}
 	
+	private ResponseEntity<Object> handleUnrecognizedPropertyException(
+			UnrecognizedPropertyException ex, HttpHeaders headers ,  HttpStatus status, WebRequest request) {
+		ProblemType problemType = ProblemType.PROPIEDADE_NAO_RECONHECIDA;
+		
+		Problem problem = createProblemBuilder(status, problemType, "Propiedade esta incorreta").build();
+		
+		return handleExceptionInternal(ex, problem,  headers, status,request);	
+	}
+	///////////////////////
 	private ResponseEntity<Object> handleInvalidFormatException(
 			InvalidFormatException ex, HttpHeaders headers ,  HttpStatus status, WebRequest request) {
 			

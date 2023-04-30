@@ -4,7 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum ProblemType {
-
+	
+	
+	PROPIEDADE_NAO_RECONHECIDA("/propiedade-nap-reconhcida", "O parametro passado na requisiçao nao foi reconhcido"),
+	PROPIEDADE_IGNORADA("/propiedade-ignorda", "O parametro passado na requisição esta invalido"),
 	MENSAGEM_IMCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensivel"),
 	ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontada", "Entidade não encontrada"),
 	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
