@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,9 +37,13 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	//@NotEmpty
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
+//	@DecimalMin("1")
+	@PositiveOrZero
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	

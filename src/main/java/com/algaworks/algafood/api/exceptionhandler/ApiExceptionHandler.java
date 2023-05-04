@@ -10,6 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -167,6 +169,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.ERRO_DE_SISTEMA;
 		
 		  String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
+		  
+		  ex.printStackTrace();
 		
 		Problem problem = createProblemBuilder(status, problemType, detail).userMessage(detail).build();
 		
@@ -195,6 +199,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+		
+		String detail = "Um ou mais campos estão inválidos. "
+				+ "Faça o preenchimento correto e tente novamente";
+		
+		BindingResult bindResult = ex.getBindingResult();
+		
+		List<Problem.Field> problemFields = bindResult.getFieldErrors().stream()
+				.map(fieldError -> Problem.Field.builder()
+						.name(fieldError.getField())
+						.userMessage(fieldError.getDefaultMessage())
+						.build())
+						.collect(Collectors.toList());
+		
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.fields(problemFields)
+				.build();
+		
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	
 	/////////////////////////////////////////////////////////////
 	private Problem.ProblemBuilder createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
 		
