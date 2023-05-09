@@ -57,7 +57,7 @@ public class RestauranteController {
 	
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante){
+	public Restaurante adicionar(@Valid @RequestBody Restaurante restaurante){
 		try {
 			return  restauranteService.salvar(restaurante);
 		}catch(CozinhaNaoEncontradaException e) {
@@ -66,7 +66,7 @@ public class RestauranteController {
 	} 
 	
 	@PutMapping(value = "/{restauranteId}")
-	public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante){
+	public Restaurante atualizar(@PathVariable Long restauranteId, @Valid @RequestBody  Restaurante restaurante){
 		
 		Restaurante restauranteAtual = restauranteService.buscaOuFalha(restauranteId);
 		BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
