@@ -8,6 +8,6 @@ Utilizando as tecnologias em alta no mercado, tais como:
 -MySQL
 -Bean Validation
 -JUnit
-
+-ModelMapper
 ## Modelo de Domínio
 ![Modelo](https://github.com/Trafl/assets/blob/main/diagrama-de-classes-de-dominio-algaFood.jpg)
