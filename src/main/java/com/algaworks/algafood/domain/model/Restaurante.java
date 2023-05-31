@@ -53,7 +53,7 @@ public class Restaurante {
 	private BigDecimal taxaFrete;
 	
 	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+//	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull
 	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
