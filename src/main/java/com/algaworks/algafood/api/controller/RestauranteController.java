@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,15 +68,10 @@ public class RestauranteController {
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@Valid @RequestBody  RestauranteInput restauranteInput){
 		try {
-			
-		Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-		
 		Restaurante restauranteAtual = restauranteService.buscaOuFalha(restauranteId);
 		
-		BeanUtils.copyProperties(restaurante,
-				restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-		
-		
+		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
+			
 			return restauranteAssembler.toModel(restauranteService.salvar(restauranteAtual));
 			
 		}catch(CozinhaNaoEncontradaException e) {
