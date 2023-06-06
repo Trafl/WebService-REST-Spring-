@@ -42,19 +42,23 @@ public class EstadoController {
 	
 	@GetMapping
 	public List<EstadoModel> listar(){
-		return estadoModelAssembler.toCollectModel(estadoRepository.findAll());
+		List<Estado> todosEstados = estadoRepository.findAll();
+		
+		return estadoModelAssembler.toCollectModel(todosEstados);
 	}
 	
 	@GetMapping(value = "/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId){
-		return estadoModelAssembler.toModel(estadoService.buscaOuFalha(estadoId));
+		Estado estado = estadoService.buscaOuFalha(estadoId); 
+		
+		return estadoModelAssembler.toModel(estado);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@Valid @RequestBody EstadoInput estadoInput) {
 		Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
-			estadoService.salvar(estado);
+		estado = estadoService.salvar(estado);
 		return estadoModelAssembler.toModel(estado);
 	}
 	
@@ -63,9 +67,12 @@ public class EstadoController {
 		Estado estadoAtual = estadoService.buscaOuFalha(estadoId);
 		
 		estadoInputDisassembler.toDomainObject(estadoInput);
+		
 		estadoInputDisassembler.copyToDomainObject(estadoInput, estadoAtual);
-				
-		return estadoModelAssembler.toModel(estadoService.salvar(estadoAtual));
+		
+		estadoAtual = estadoService.salvar(estadoAtual);		
+		
+			return estadoModelAssembler.toModel(estadoAtual);
 	}
 	
 	@DeleteMapping(value = "/{estadoId}")

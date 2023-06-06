@@ -42,13 +42,15 @@ public class CozinhaController {
 	
 	@GetMapping
 	public List<CozinhaModel> listar(){	 
-		return cozinhaModelAssembler.toCollectModel(cozinhaRepository.findAll());
+		List<Cozinha> todasCozinhas = cozinhaRepository.findAll();
+		return cozinhaModelAssembler.toCollectModel(todasCozinhas);
 		
 	}
 	
 	@GetMapping(value = "/{cozinhaId}") 
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
-		 return cozinhaModelAssembler.toModel(cozinhaCadastro.buscarOuFalha(cozinhaId));
+		Cozinha cozinha = cozinhaCadastro.buscarOuFalha(cozinhaId);
+		 return cozinhaModelAssembler.toModel(cozinha);
 	}
 	
 	@PostMapping
@@ -56,7 +58,8 @@ public class CozinhaController {
 	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
 		
 		Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
-		cozinhaCadastro.salvar(cozinha);
+		
+		cozinha = cozinhaCadastro.salvar(cozinha);
    
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
@@ -66,8 +69,10 @@ public class CozinhaController {
 		cozinhaInputDisassembler.toDomainObject(cozinhaInput);
 		
 		Cozinha cozinhaAtual = cozinhaCadastro.buscarOuFalha(cozinhaId);
+		
 		cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
-		cozinhaCadastro.salvar(cozinhaAtual);
+		
+		cozinhaAtual = cozinhaCadastro.salvar(cozinhaAtual);
 		
 			return cozinhaModelAssembler.toModel(cozinhaAtual);			
 	}

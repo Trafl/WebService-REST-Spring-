@@ -72,7 +72,8 @@ public class RestauranteController {
 		
 		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 			
-			return restauranteAssembler.toModel(restauranteService.salvar(restauranteAtual));
+		restauranteAtual = restauranteService.salvar(restauranteAtual);
+			return restauranteAssembler.toModel(restauranteAtual);
 			
 		}catch(CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());

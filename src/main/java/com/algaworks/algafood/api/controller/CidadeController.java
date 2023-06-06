@@ -44,22 +44,24 @@ public class CidadeController {
 	
 	@GetMapping
 	public List<CidadeModel> listar(){
-		return cidadeModelAssembler.toCollectModel(cidadeRepository.findAll());
+		List<Cidade> todasCidades = cidadeRepository.findAll();
+		return cidadeModelAssembler.toCollectModel(todasCidades);
 	}
 	
 	@GetMapping(value = "/{cidadeId}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public CidadeModel buscar(@PathVariable Long cidadeId){
-		return cidadeModelAssembler.toModel(cidadeService.buscaOuFalha(cidadeId));
+		Cidade cidade = cidadeService.buscaOuFalha(cidadeId);
+		return cidadeModelAssembler.toModel(cidade);
 	}
 	
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public CidadeModel adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
-			
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
-			cidadeService.salvar(cidade);
+			cidade = cidadeService.salvar(cidade);
+			
 			return cidadeModelAssembler.toModel(cidade);
 		
 		}catch(EstadoNaoEncontradoException e) {
@@ -71,11 +73,14 @@ public class CidadeController {
 	public CidadeModel atualizar(@PathVariable Long cidadeId, @Valid @RequestBody CidadeInput cidadeInput){
 		try {
 			Cidade cidadeAtual = cidadeService.buscaOuFalha(cidadeId);
+			
 			cidadeInputDisassembler.toDomainObject(cidadeInput);
 			
 			cidadeInputDisassembler.copyToDomainObject(cidadeInput, cidadeAtual);
 			
-			return cidadeModelAssembler.toModel(cidadeService.salvar(cidadeAtual));
+			cidadeAtual = cidadeService.salvar(cidadeAtual);
+			
+			return cidadeModelAssembler.toModel(cidadeAtual);
 		
 		}catch(EstadoNaoEncontradoException e){
 			throw new NegocioException(e.getMessage(), e);
