@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -19,13 +20,20 @@ public class CadastroRestauranteService {
 	@Autowired
 	private CadastroCozinhaService cozinhaService;
 	
+	@Autowired
+	private CadastroCidadeService cidadeService;
+	
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaid = restaurante.getCozinha().getId();
+		Long cidadeId = restaurante.getEndereco().getCidade().getId();
 		
 		Cozinha cozinha = cozinhaService.buscarOuFalha(cozinhaid);
+		Cidade cidade = cidadeService.buscaOuFalha(cidadeId); 
 		
 		restaurante.setCozinha(cozinha);		
+		restaurante.getEndereco().setCidade(cidade);
+		
 		return restauranteRepository.save(restaurante);
 	}
 
