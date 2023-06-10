@@ -1,13 +1,13 @@
 package com.algaworks.algafood.domain.exception;
 
-public class FormaPagamentoNaoEncontradoException extends EntidadeNaoEncontradaException {
+public class FormaPagamentoNaoEncontradaException extends EntidadeNaoEncontradaException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public FormaPagamentoNaoEncontradoException(String mensagem) {
+	public FormaPagamentoNaoEncontradaException(String mensagem) {
 		super(mensagem);
 	}
-	public FormaPagamentoNaoEncontradoException(Long formaPagamentoId) {
+	public FormaPagamentoNaoEncontradaException(Long formaPagamentoId) {
 		this(String.format("Não existe um cadastro de forma de pagamento com código %d", formaPagamentoId));
 	}
 }

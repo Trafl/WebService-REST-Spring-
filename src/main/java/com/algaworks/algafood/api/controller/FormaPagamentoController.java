@@ -25,7 +25,7 @@ import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
 
 @RestController
-@RequestMapping(value = "/pagamentos")
+@RequestMapping(value = "/formas-pagamento")
 public class FormaPagamentoController {
 
 	@Autowired
@@ -43,18 +43,18 @@ public class FormaPagamentoController {
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public List<FormaPagamentoModel> listar() {
-		List<FormaPagamento> pagamentos = repository.findAll() ;
+		List<FormaPagamento> todasFormasPagamentos = repository.findAll() ;
 		
-		return assembler.toCollectModel(pagamentos);
+		return assembler.toCollectModel(todasFormasPagamentos);
 	}
 	
-	@GetMapping(value = "/{pagamentoId}")
+	@GetMapping(value = "/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.OK)
-	public FormaPagamentoModel buscar (@PathVariable Long pagamentoId) {
+	public FormaPagamentoModel buscar (@PathVariable Long formaPagamentoId) {
 		
-		FormaPagamento pagamento = service.buscaOuFalha(pagamentoId);
+		FormaPagamento formaPagamento = service.buscaOuFalha(formaPagamentoId);
 		
-		return assembler.toModel(pagamento);
+		return assembler.toModel(formaPagamento);
 	}
 	
 	
@@ -62,29 +62,29 @@ public class FormaPagamentoController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormaPagamentoModel salvar(@Valid @RequestBody FormaPagamentoInput input) {
 		
-		FormaPagamento pagamento = dissaembler.toDomainObject(input);
-		service.salvar(pagamento);
-		return assembler.toModel(pagamento);
+		FormaPagamento formaPagamento  = dissaembler.toDomainObject(input);
+		service.salvar(formaPagamento );
+		return assembler.toModel(formaPagamento );
 	}
 	
-	@PutMapping(value = "/{pagamentoId}")
+	@PutMapping(value = "/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.OK)
-	public FormaPagamentoModel atualizar(@PathVariable Long pagamentoId,
+	public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
 			@Valid @RequestBody FormaPagamentoInput input) {
 		
-		FormaPagamento pagamentoAtual = service.buscaOuFalha(pagamentoId);
+		FormaPagamento formaPagamentoAtual = service.buscaOuFalha(formaPagamentoId);
 		
-		dissaembler.toCopyToDomainModel(input, pagamentoAtual);
+		dissaembler.toCopyToDomainModel(input, formaPagamentoAtual);
 		
-		pagamentoAtual = service.salvar(pagamentoAtual);
+		formaPagamentoAtual = service.salvar(formaPagamentoAtual);
 	
-		return assembler.toModel(pagamentoAtual);
+		return assembler.toModel(formaPagamentoAtual);
 	}
 	
 	
-	@DeleteMapping(value = "/{pagamentoId}")
+	@DeleteMapping(value = "/{formaPagamentoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long pagamentoId) {
-		service.remove(pagamentoId);
+	public void delete(@PathVariable Long formaPagamentoId) {
+		service.remove(formaPagamentoId);
 	}
 }

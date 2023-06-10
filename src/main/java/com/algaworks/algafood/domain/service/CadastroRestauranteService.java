@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
@@ -22,6 +23,9 @@ public class CadastroRestauranteService {
 	
 	@Autowired
 	private CadastroCidadeService cidadeService;
+	
+	@Autowired
+	private CadastroFormaPagamentoService formaPagamentoService;
 	
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
@@ -56,5 +60,21 @@ public class CadastroRestauranteService {
 		
 		restauranteAtual.inativar();
 		
+	}
+	
+	@Transactional
+	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		
+		restaurante.removerFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscaOuFalha(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		
+		restaurante.adicionarFormaPagamento(formaPagamento);
 	}
 }
