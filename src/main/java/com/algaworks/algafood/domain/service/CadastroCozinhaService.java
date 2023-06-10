@@ -25,7 +25,7 @@ public class CadastroCozinhaService {
 	} 
 	
 	@Transactional
-	public void excluir(Long cozinhaId) {
+	public void remover(Long cozinhaId) {
 		try {
 			cozinhaRepository.deleteById(cozinhaId);
 			cozinhaRepository.flush();

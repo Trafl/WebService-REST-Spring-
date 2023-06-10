@@ -54,7 +54,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    
 		}
 		
-		String detail = "O corpo da requisição esta inválido. Verifique erro de sintaxe";
+		String detail = "O corpo da requisição esta inválido. Verifique erro de sintaxe.";
 		Problem problem = createProblemBuilder(status, problemType, detail).userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
 		
 		return handleExceptionInternal(ex, problem, headers, status, request);
@@ -83,7 +83,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		String detail = String.format(
 				"A propriedade '%s', recebeu o valor de '%s ;"
-				+ "que é um tipo invalido. Corrija e informe um valor compativel com o tipo %s",
+				+ "que é um tipo invalido. Corrija e informe um valor compativel com o tipo %s.",
 				path, ex.getValue(), ex.getTargetType().getSimpleName());
 		
 		Problem problem = createProblemBuilder(status, problemType, detail).userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
@@ -109,7 +109,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.PARAMETRO_INVALIDO;
 		
 		String detail = String.format("o parâmetro de URL '%s'recebeu o valor '%s', que é de um tipo inválido."
-				+ " Corrija e informe um valor compatível com o tipo %s ", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+				+ " Corrija e informe um valor compatível com o tipo %s. ", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 		
 		Problem problem = createProblemBuilder(status, problemType, detail).userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
 		

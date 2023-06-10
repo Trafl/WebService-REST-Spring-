@@ -19,7 +19,7 @@ public class ModelMapperConfig {
 		enderecoToEnderecoModelTypeMap.<String>addMapping
 		(enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome()
 		,(enderecoModelDest, value)-> enderecoModelDest.getCidade().setEstado(value));
-		
+			
 		return modelMapper;
 	}
 }
