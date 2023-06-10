@@ -43,6 +43,7 @@ public class UsuarioController {
 	
 	@GetMapping
 	public List<UsuarioModel> listar(){
+		
 		List<Usuario> todosUsuarios = usuarioRepository.findAll();
 		
 		return usuarioModelAssembler.toCollectModel(todosUsuarios);
@@ -50,6 +51,7 @@ public class UsuarioController {
 	
 	@GetMapping(value = "/{usuarioId}")
 	public UsuarioModel buscar(@PathVariable Long usuarioId){
+		
 		Usuario usuario = usuarioService.buscarOuFalha(usuarioId); 
 		
 		return usuarioModelAssembler.toModel(usuario);
@@ -58,6 +60,7 @@ public class UsuarioController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioModel adicionar(@Valid @RequestBody UsuarioComSenhaInput usuarioInput) {
+		
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioInput);
 		usuario = usuarioService.salvar(usuario);
 		
@@ -78,7 +81,7 @@ public class UsuarioController {
 	
 	@PutMapping(value = "/{usuarioId}/senha")
 	public void atualizarSenha(@PathVariable Long usuarioId, @Valid @RequestBody SenhaInput usuarioInput){				
+		
 		usuarioService.alterarSenha(usuarioId, usuarioInput.getSenhaAtual(), usuarioInput.getNovaSenha());
-
 	}	
 }
