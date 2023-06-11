@@ -81,6 +81,7 @@ public class RestauranteController {
 			throw new NegocioException(e.getMessage());
 		}	
 	}
+	
 	@PutMapping(value = "/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable Long restauranteId) {
@@ -93,6 +94,20 @@ public class RestauranteController {
 	public void inaativar(@PathVariable Long restauranteId) {
 		restauranteService.inativar(restauranteId);
 		
+	}
+	
+	@PutMapping(value = "/{restauranteId}/abertura")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void abertura(@PathVariable Long restauranteId) {
+		restauranteService.abrir(restauranteId);
+		
+	}
+	
+	@PutMapping(value = "/{restauranteId}/fechamento")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void fechamento(@PathVariable Long restauranteId) {
+		restauranteService.fechar(restauranteId);
+
 	}
 		
 }
