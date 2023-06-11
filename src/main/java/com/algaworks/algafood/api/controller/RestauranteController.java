@@ -51,7 +51,7 @@ public class RestauranteController {
 	
 	@GetMapping(value = "/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId){	
-		return restauranteAssembler.toModel(restauranteService.buscaOuFalha(restauranteId));
+		return restauranteAssembler.toModel(restauranteService.buscaOuFalhar(restauranteId));
 	}
 	
 	@PostMapping
@@ -70,7 +70,7 @@ public class RestauranteController {
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@Valid @RequestBody  RestauranteInput restauranteInput){
 		try {
-		Restaurante restauranteAtual = restauranteService.buscaOuFalha(restauranteId);
+		Restaurante restauranteAtual = restauranteService.buscaOuFalhar(restauranteId);
 		
 		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 			

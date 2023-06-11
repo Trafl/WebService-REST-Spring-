@@ -41,14 +41,14 @@ public class CadastroRestauranteService {
 		return restauranteRepository.save(restaurante);
 	}
 
-	public Restaurante buscaOuFalha(Long restauranteId) {
+	public Restaurante buscaOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId).orElseThrow(
 				()-> new RestauranteNaoEncontradoException(restauranteId));
 	}
 	
 	@Transactional
 	public void ativar(Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalha(restauranteId);
+		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
 		
 		restauranteAtual.ativar();
 		
@@ -56,7 +56,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void inativar (Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalha(restauranteId);
+		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
 		
 		restauranteAtual.inativar();
 		
@@ -64,7 +64,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
-		Restaurante restaurante = buscaOuFalha(restauranteId);
+		Restaurante restaurante = buscaOuFalhar(restauranteId);
 		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
 		
 		restaurante.removerFormaPagamento(formaPagamento);
@@ -72,7 +72,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
-		Restaurante restaurante = buscaOuFalha(restauranteId);
+		Restaurante restaurante = buscaOuFalhar(restauranteId);
 		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
 		
 		restaurante.adicionarFormaPagamento(formaPagamento);

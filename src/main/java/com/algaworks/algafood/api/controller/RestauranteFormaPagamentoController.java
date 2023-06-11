@@ -31,7 +31,7 @@ public class RestauranteFormaPagamentoController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<FormaPagamentoModel> listar(@PathVariable Long restauranteId){
 		
-		Restaurante restaurante = restauranteService.buscaOuFalha(restauranteId);
+		Restaurante restaurante = restauranteService.buscaOuFalhar(restauranteId);
 		return formaPagamentoAssembler.toCollectModel(restaurante.getFormasPagamento());
 	}
 	
