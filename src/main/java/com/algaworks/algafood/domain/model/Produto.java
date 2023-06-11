@@ -39,4 +39,10 @@ public class Produto {
 	@JoinColumn(nullable = false)
 	private Restaurante restaurante;
 	
+	public void associarProduto(Restaurante restaurante, Produto produto) {
+		restaurante.getProdutos().add(produto);
+		produto.setRestaurante(restaurante);
+	}
+	
+	
 }
