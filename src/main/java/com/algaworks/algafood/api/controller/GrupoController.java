@@ -80,4 +80,5 @@ public class GrupoController {
 	public void remover(@PathVariable Long grupoId){
 		grupoService.remover(grupoId);	
 	}
+	
 }

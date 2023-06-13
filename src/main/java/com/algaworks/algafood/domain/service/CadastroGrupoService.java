@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 
 @Service
@@ -17,6 +18,9 @@ public class CadastroGrupoService {
 	private static final String MSG_GRUPO_EM_USO = "Grupo de código %d não pode ser removido, pois esta em uso";
 	@Autowired
 	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private CadastroPermissaoService permissaoService;
 	
 	@Transactional
 	public Grupo salvar(Grupo grupo) {
@@ -43,5 +47,15 @@ public class CadastroGrupoService {
 				() -> new GrupoNaoEncontradoException(grupoId));
 	}
 	
+	public boolean associar (Long grupoId, Long permissaoId) {
+		Grupo grupo = buscaOuFalha(grupoId);
+		Permissao permissao = permissaoService.buscaOuFalha(permissaoId);
+		return grupo.assosicar(permissao);	
+	}
 	
+	public boolean disassociar(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscaOuFalha(grupoId);
+		Permissao permissao = permissaoService.buscaOuFalha(permissaoId);
+		return grupo.disassosicar(permissao);	
+	}
 }
