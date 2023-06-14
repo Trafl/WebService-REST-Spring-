@@ -39,12 +39,14 @@ public class RestauranteUsuarioResponsavelController {
 	@PutMapping(value = "/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void adicionarUsuario(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+		
 		restauranteService.associarUsuario(restauranteId, usuarioId);
 	}
 	
 	@DeleteMapping(value = "/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void removerUsuario(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+		
 		restauranteService.desassociarUsuario(restauranteId, usuarioId);
 	}
 		
