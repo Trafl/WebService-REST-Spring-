@@ -1,5 +1,5 @@
 # ProjetoEspecialistaSpring-emProgresso-
-Projeto de estudo sobre p framework Spring para back-end com Java, consiste em uma REST API de delivery.
+Projeto de estudo sobre o framework Spring para back-end com Java, consiste em uma REST API de delivery.
 Utilizando as tecnologias em alta no mercado, tais como:
 
 -Spring, Spring Boot, Spring Data JPA, Spring MVC
