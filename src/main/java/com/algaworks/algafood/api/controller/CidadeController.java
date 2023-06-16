@@ -51,7 +51,7 @@ public class CidadeController {
 	@GetMapping(value = "/{cidadeId}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public CidadeModel buscar(@PathVariable Long cidadeId){
-		Cidade cidade = cidadeService.buscaOuFalha(cidadeId);
+		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 		return cidadeModelAssembler.toModel(cidade);
 	}
 	
@@ -72,7 +72,7 @@ public class CidadeController {
 	@PutMapping(value = "/{cidadeId}")
 	public CidadeModel atualizar(@PathVariable Long cidadeId, @Valid @RequestBody CidadeInput cidadeInput){
 		try {
-			Cidade cidadeAtual = cidadeService.buscaOuFalha(cidadeId);
+			Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
 			
 			cidadeInputDisassembler.toDomainObject(cidadeInput);
 			

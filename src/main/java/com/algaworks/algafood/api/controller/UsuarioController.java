@@ -52,7 +52,7 @@ public class UsuarioController {
 	@GetMapping(value = "/{usuarioId}")
 	public UsuarioModel buscar(@PathVariable Long usuarioId){
 		
-		Usuario usuario = usuarioService.buscarOuFalha(usuarioId); 
+		Usuario usuario = usuarioService.buscarOuFalhar(usuarioId); 
 		
 		return usuarioModelAssembler.toModel(usuario);
 	}
@@ -70,7 +70,7 @@ public class UsuarioController {
 	@PutMapping(value = "/{usuarioId}")
 	public UsuarioModel atualizar(@PathVariable Long usuarioId, @Valid @RequestBody UsuarioInput usuarioInput){
 		
-		Usuario usuarioAtual = usuarioService.buscarOuFalha(usuarioId);
+		Usuario usuarioAtual = usuarioService.buscarOuFalhar(usuarioId);
 		
 		usuarioInputDisassembler.copyToDomainObject(usuarioInput, usuarioAtual);
 		

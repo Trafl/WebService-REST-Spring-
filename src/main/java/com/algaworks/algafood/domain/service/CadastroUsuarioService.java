@@ -39,7 +39,7 @@ public class CadastroUsuarioService {
 	@Transactional
 	public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
 		
-		Usuario usuarioAtual = buscarOuFalha(usuarioId);
+		Usuario usuarioAtual = buscarOuFalhar(usuarioId);
 		
 		if(usuarioAtual.senhaNaoCoincide(senhaAtual)){
 			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
@@ -47,7 +47,7 @@ public class CadastroUsuarioService {
 		usuarioAtual.setSenha(novaSenha);
 	}
 	
-	public Usuario buscarOuFalha(Long usuarioId) {
+	public Usuario buscarOuFalhar(Long usuarioId) {
 		
 		return usuarioRepository.findById(usuarioId).orElseThrow(
 				() -> new UsuarioNaoEncontradoException(usuarioId));
@@ -55,7 +55,7 @@ public class CadastroUsuarioService {
 	
 	@Transactional
 	public void associar (Long usuarioId, Long grupoId) {
-		Usuario usuario = buscarOuFalha(usuarioId);
+		Usuario usuario = buscarOuFalhar(usuarioId);
 		Grupo grupo = grupoService.buscaOuFalha(grupoId);
 		
 		usuario.AssociarAoGrupo(grupo);
@@ -63,7 +63,7 @@ public class CadastroUsuarioService {
 	
 	@Transactional
 	public void disassociar (Long usuarioId, Long grupoId) {
-		Usuario usuario = buscarOuFalha(usuarioId);
+		Usuario usuario = buscarOuFalhar(usuarioId);
 		Grupo grupo = grupoService.buscaOuFalha(grupoId);
 		
 		usuario.disassociarAoGrupo(grupo);

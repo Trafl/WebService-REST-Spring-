@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -33,14 +34,10 @@ public class Pedido {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@Column(nullable = false)
 	private BigDecimal subtotal;
-	
-	@Column(nullable = false)
 	private BigDecimal taxaFrete;
-	
-	@Column(nullable = false)
 	private BigDecimal valorTotal;
+	
 	
 	@Embedded
 	private Endereco enderecoEntrega;
@@ -61,7 +58,7 @@ public class Pedido {
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataEntrega;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
 	
 	@ManyToOne
@@ -77,7 +74,10 @@ public class Pedido {
 	private FormaPagamento formaPagamento;
 
 	
+	
 	public void calcularValorTotal() {
+	    getItens().forEach(ItemPedido::calcularPrecoTotal);
+	    
 	    this.subtotal = getItens().stream()
 	        .map(item -> item.getPrecoTotal())
 	        .reduce(BigDecimal.ZERO, BigDecimal::add);

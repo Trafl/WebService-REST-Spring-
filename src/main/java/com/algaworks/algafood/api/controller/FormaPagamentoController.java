@@ -52,7 +52,7 @@ public class FormaPagamentoController {
 	@ResponseStatus(HttpStatus.OK)
 	public FormaPagamentoModel buscar (@PathVariable Long formaPagamentoId) {
 		
-		FormaPagamento formaPagamento = service.buscaOuFalha(formaPagamentoId);
+		FormaPagamento formaPagamento = service.buscarOuFalhar(formaPagamentoId);
 		
 		return assembler.toModel(formaPagamento);
 	}
@@ -72,7 +72,7 @@ public class FormaPagamentoController {
 	public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
 			@Valid @RequestBody FormaPagamentoInput input) {
 		
-		FormaPagamento formaPagamentoAtual = service.buscaOuFalha(formaPagamentoId);
+		FormaPagamento formaPagamentoAtual = service.buscarOuFalhar(formaPagamentoId);
 		
 		dissaembler.toCopyToDomainModel(input, formaPagamentoAtual);
 		

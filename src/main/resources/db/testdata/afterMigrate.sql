@@ -29,6 +29,9 @@ alter table produto auto_increment = 1;
 alter table restaurante auto_increment = 1;
 alter table usuario auto_increment = 1;
 
+alter table pedido auto_increment = 1;
+alter table item_pedido auto_increment = 1;
+
 insert into cozinha (id, nome) values (1, 'Tailandesa');
 insert into cozinha (id, nome) values (2, 'Indiana');
 insert into cozinha (id, nome) values (3, 'Argentina');
@@ -112,4 +115,5 @@ values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');
+
 

@@ -40,7 +40,7 @@ public class CadastroRestauranteService {
 		Long cidadeId = restaurante.getEndereco().getCidade().getId();
 		
 		Cozinha cozinha = cozinhaService.buscarOuFalha(cozinhaid);
-		Cidade cidade = cidadeService.buscaOuFalha(cidadeId); 
+		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId); 
 		
 		restaurante.setCozinha(cozinha);		
 		restaurante.getEndereco().setCidade(cidade);
@@ -48,14 +48,14 @@ public class CadastroRestauranteService {
 		return restauranteRepository.save(restaurante);
 	}
 
-	public Restaurante buscaOuFalhar(Long restauranteId) {
+	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId).orElseThrow(
 				()-> new RestauranteNaoEncontradoException(restauranteId));
 	}
 	
 	@Transactional
 	public void ativar(Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		
 		restauranteAtual.ativar();
 		
@@ -63,7 +63,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void inativar (Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		
 		restauranteAtual.inativar();
 		
@@ -81,7 +81,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void abrir(Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		
 		restauranteAtual.abrir();
 		
@@ -89,7 +89,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void fechar(Long restauranteId) {
-		Restaurante restauranteAtual = buscaOuFalhar(restauranteId);
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 		
 		restauranteAtual.fechar();
 		
@@ -97,32 +97,32 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
-		Restaurante restaurante = buscaOuFalhar(restauranteId);
-		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
 		
 		restaurante.removerFormaPagamento(formaPagamento);
 	}
 	
 	@Transactional
 	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
-		Restaurante restaurante = buscaOuFalhar(restauranteId);
-		FormaPagamento formaPagamento = formaPagamentoService.buscaOuFalha(formaPagamentoId);
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
 		
 		restaurante.adicionarFormaPagamento(formaPagamento);
 	}
 	
 	@Transactional
 	public void desassociarUsuario(Long restauranteId, Long usuarioId) {
-		Restaurante restaurante = buscaOuFalhar(restauranteId);
-		Usuario usuario = usuarioService.buscarOuFalha(usuarioId);
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
 		
 		restaurante.removerUsuario(usuario);
 	}
 	
 	@Transactional
 	public void associarUsuario(Long restauranteId, Long usuarioId) {
-		Restaurante restaurante = buscaOuFalhar(restauranteId);
-		Usuario usuario = usuarioService.buscarOuFalha(usuarioId);
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
 		
 		restaurante.adicionarUsuario(usuario);
 	}

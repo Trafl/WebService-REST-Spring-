@@ -31,7 +31,7 @@ public class UsuarioGrupoController {
 	@GetMapping()
 	public List<GrupoModel> listar(@PathVariable Long usuarioId){
 		
-		Set<Grupo> todosUsuarios = usuarioService.buscarOuFalha(usuarioId).getGrupos();
+		Set<Grupo> todosUsuarios = usuarioService.buscarOuFalhar(usuarioId).getGrupos();
 		
 		return grupoModelAssembler.toCollectModel(todosUsuarios);
 	}

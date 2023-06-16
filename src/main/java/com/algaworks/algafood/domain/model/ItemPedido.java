@@ -2,7 +2,6 @@ package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,16 +22,10 @@ public class ItemPedido {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@Column(nullable = false)
+
 	private BigDecimal precoUnitario;
-	
-	@Column(nullable = false)
 	private BigDecimal precoTotal;
-	
-	@Column(nullable = false)
 	private Integer quantidade;
-	
-	@Column
 	private String observacao;
 	
 	@ManyToOne
@@ -42,4 +35,20 @@ public class ItemPedido {
 	@ManyToOne
 	@JoinColumn(name ="produto_id", nullable = false)
 	private Produto produto;
+	
+	public void calcularPrecoTotal() {
+	    BigDecimal precoUnitario = this.getPrecoUnitario();
+	    Integer quantidade = this.getQuantidade();
+
+	    if (precoUnitario == null) {
+	        precoUnitario = BigDecimal.ZERO;
+	    }
+
+	    if (quantidade == null) {
+	        quantidade = 0;
+	    }
+
+	    this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
+	}
+	
 }

@@ -117,4 +117,9 @@ public class Restaurante {
 	public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
 	    return !aceitaFormaPagamento(formaPagamento);
 	}
+	
+	public boolean aceitaProdutos(List<Produto> produtos) {
+		return getProdutos().containsAll(produtos);
+	}
+	
 }

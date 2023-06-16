@@ -31,7 +31,7 @@ public class RestauranteUsuarioResponsavelController {
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<UsuarioModel> listar(@PathVariable Long restauranteId){
-		Set<Usuario> usuarios = restauranteService.buscaOuFalhar(restauranteId).getUsuarios();
+		Set<Usuario> usuarios = restauranteService.buscarOuFalhar(restauranteId).getUsuarios();
 	
 		return usuarioAssembler.toCollectModel(usuarios);
 	}
