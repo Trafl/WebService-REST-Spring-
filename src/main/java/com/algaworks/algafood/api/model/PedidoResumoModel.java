@@ -12,8 +12,7 @@ import lombok.Setter;
 @Setter
 public class PedidoResumoModel {
 
-	
-	private Long id;
+	private String codigo;
 	
 	private BigDecimal subtotal;
 
