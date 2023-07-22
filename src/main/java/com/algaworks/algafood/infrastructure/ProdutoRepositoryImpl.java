@@ -18,8 +18,13 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQueries {
 	@Transactional
 	@Override
 	public FotoProduto save(FotoProduto foto) {
-		// TODO Auto-generated method stub
-		return null;
+			return manager.merge(foto);
+	}
+
+	@Transactional
+	@Override
+	public void delete(FotoProduto foto) {
+		manager.remove(foto);
 	}
 
 }
