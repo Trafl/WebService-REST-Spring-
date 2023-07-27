@@ -22,12 +22,12 @@ public class FluxoPedidoController {
 
 	@PutMapping(value = "/entrega")
 	public void entregar(@PathVariable String codigoPedido) {
-		fluxoPedido.entregue(codigoPedido);
+		fluxoPedido.entregar(codigoPedido);
 	}
 	
 	@PutMapping(value = "/cancelamento")
 	public void cancelar(@PathVariable String codigoPedido) {
-		fluxoPedido.cancelado(codigoPedido);
+		fluxoPedido.cancelar(codigoPedido);
 	}
 
 }
