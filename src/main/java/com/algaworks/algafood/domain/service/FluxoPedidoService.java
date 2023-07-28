@@ -24,7 +24,7 @@ public class FluxoPedidoService {
 		var mensagem = Mensagem.builder()
 				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
 				.corpo("pedido-confirmado.html")
-				.destinatario("pivolluz@hotmail.com")
+				.destinatario("ivopivoteste@gmail.com")
 				.variavel("pedido", pedido)
 				.build();
 		

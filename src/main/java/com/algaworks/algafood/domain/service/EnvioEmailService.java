@@ -9,7 +9,7 @@ import lombok.NonNull;
 import lombok.Singular;
 
 public interface EnvioEmailService {
-
+	
 	void enviar(Mensagem mensagem);
 	
 	@Getter
@@ -28,4 +28,5 @@ public interface EnvioEmailService {
 		@Singular("variavel")
 		private Map<String, Object> variaveis;
 	}
+	
 }
