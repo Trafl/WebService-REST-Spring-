@@ -2,11 +2,9 @@ package com.algaworks.algafood.api.model.input;
 
 import javax.validation.constraints.NotBlank;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class CozinhaInput {
 
 	@NotBlank
