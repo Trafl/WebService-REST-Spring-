@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.assembler.CidadeModelAssembler;
+import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.CidadeModel;
 import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
@@ -26,6 +27,15 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping(value = "/cidades")
 public class CidadeController {
@@ -42,22 +52,37 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler; 
 	
+	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public List<CidadeModel> listar(){
 		List<Cidade> todasCidades = cidadeRepository.findAll();
 		return cidadeModelAssembler.toCollectModel(todasCidades);
 	}
 	
+	@ApiOperation("Busca as cidades por ID")
 	@GetMapping(value = "/{cidadeId}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public CidadeModel buscar(@PathVariable Long cidadeId){
+	@ApiResponses({
+		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(mediaType = "application/json",  schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(responseCode = "400", description = "ID da cidade e invalido", content = @Content(mediaType = "application/json",  schema = @Schema(implementation = Problem.class)))
+	})
+	public CidadeModel buscar(
+			@ApiParam("ID de uma cidade") 
+			@PathVariable Long cidadeId){
+		
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 		return cidadeModelAssembler.toModel(cidade);
 	}
 	
+	@ApiOperation("Cadastra uma cidade por ID")
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public CidadeModel adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
+	@ApiResponses(
+		@ApiResponse(responseCode = "201", description = "Cidade cadastrada")
+	)
+	public CidadeModel adicionar(
+			@ApiParam(name = "corpo", value = "Representação de uma nova cidade") 
+			@Valid @RequestBody CidadeInput cidadeInput) {
+		
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 			cidade = cidadeService.salvar(cidade);
@@ -69,8 +94,17 @@ public class CidadeController {
 		}	
 	}
 	
+	@ApiOperation("Atualiza uma cidade por ID")
 	@PutMapping(value = "/{cidadeId}")
-	public CidadeModel atualizar(@PathVariable Long cidadeId, @Valid @RequestBody CidadeInput cidadeInput){
+	@ApiResponses({
+		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(mediaType = "application/json",  schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(responseCode = "200", description = "Cidade atualizada")
+	})
+	public CidadeModel atualizar(
+			@ApiParam(value = "ID de uma cidade") @PathVariable Long cidadeId, 
+			@ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados") 
+			@Valid @RequestBody CidadeInput cidadeInput){
+		
 		try {
 			Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
 			
@@ -87,9 +121,17 @@ public class CidadeController {
 		}	
 	}
 	
+	@ApiOperation("Exclui uma cidade por ID")
 	@DeleteMapping(value = "/{cidadeId}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cidadeId){
+	@ApiResponses({
+		@ApiResponse(responseCode = "204", description = "Cidade excluida"),
+		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(mediaType = "application/json",  schema = @Schema(implementation = Problem.class)))
+	})
+	public void remover(
+			@ApiParam(value = "ID de uma cidade")
+			@PathVariable Long cidadeId){
+		
 		cidadeService.remover(cidadeId);
 	}
 }

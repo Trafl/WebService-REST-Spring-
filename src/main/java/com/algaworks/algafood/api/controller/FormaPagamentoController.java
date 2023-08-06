@@ -44,7 +44,7 @@ public class FormaPagamentoController {
 	private FormaPagamentoInputDissaembler dissaembler;
 	
 	@Autowired
-	FormaPagamentoRepository repository;
+	private FormaPagamentoRepository repository;
 	
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
